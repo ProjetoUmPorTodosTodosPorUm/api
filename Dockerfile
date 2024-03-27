@@ -41,7 +41,7 @@ COPY --from=base-image --chown=node:node /usr/src/app/node_modules ./node_module
 
 USER node:node
 EXPOSE 3000
-CMD ["node", "dist/src/main.js"]
+CMD npx prisma migrate deploy; npx prisma db seed; node dist/main.js
 
 ###################
 # PROD IMAGE
@@ -61,4 +61,4 @@ COPY --from=base-image --chown=node:node /usr/src/app/node_modules ./node_module
 
 USER node:node
 EXPOSE 3000
-CMD ["node", "dist/src/main.js"]
+CMD npx prisma migrate deploy; npx prisma db seed; node dist/main.js
