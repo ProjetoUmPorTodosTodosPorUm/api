@@ -1,0 +1,362 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["fullTextSearch"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// Enums
+enum Role {
+  VOLUNTEER
+  ADMIN
+  WEB_MASTER
+}
+
+enum TokenType {
+  RECOVER_EMAIL
+  CREATE_EMAIL
+}
+
+enum Occupation {
+  PRESIDENT
+  VICE_PRESIDENT
+  GENERAL_COORDINATOR
+  COORDINATOR_01
+  COUNSELOR_01
+  COUNSELOR_02
+  COUNSELOR_03
+  WEB_MASTER
+  TREASURER_01
+  TREASURER_02
+  ACADEMIC_INSTRUCTOR_01
+  ACADEMIC_INSTRUCTOR_02
+  EXECUTIVE_SECRETARY
+  AUXILIARY_SECRETARY
+  COORDINATOR_02
+  INFIELD_COORDINATOR
+  OUTFIELD_COORDINATOR
+  COLLECTOR
+  SUPPORT_SERVICE
+}
+
+enum OfferorFamilyGroup {
+  CHURCH
+  COMMUNITY
+  EXTERNAL
+}
+
+enum ChurchType {
+  PIONEER
+  EXPANSION
+  SUPPORT
+  RESPONSIBLE
+}
+
+enum ReportType {
+  ORDINARY
+  SEMESTER
+  ANNUAL
+}
+
+// Models
+model User {
+  id                 String   @id @default(uuid())
+  firstName          String
+  lastName           String?
+  email              String   @unique
+  hashedPassword     String
+  role               Role     @default(VOLUNTEER)
+  avatar             String?
+  lastAccess         DateTime @default(now())
+  hashedRefreshToken String?
+
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+  deleted    DateTime?
+  restricted DateTime?
+
+  Logs    Log[]
+  field   Field?  @relation(fields: [fieldId], references: [id])
+  fieldId String?
+
+  @@map("users")
+}
+
+model Log {
+  id         String   @id @default(uuid())
+  ip         String
+  method     String
+  url        String
+  body       Json?
+  files      String[]
+  query      String?
+  statusCode String
+
+  user      User?     @relation(fields: [userId], references: [id])
+  userId    String?
+  createdAt DateTime  @default(now())
+  deleted   DateTime?
+
+  @@map("logs")
+}
+
+model Token {
+  id         String    @id @default(uuid())
+  token      String
+  email      String
+  used       Boolean   @default(false)
+  tokenType  TokenType
+  payload    Json?
+  expiration Int
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deleted   DateTime?
+
+  @@map("tokens")
+}
+
+model File {
+  id       String @id @default(uuid())
+  name     String
+  mimeType String
+  size     Int
+
+  createdAt DateTime  @default(now())
+  deleted   DateTime?
+
+  field   Field?  @relation(fields: [fieldId], references: [id])
+  fieldId String?
+
+  @@map("files")
+}
+
+model Field {
+  id               String   @id @default(uuid())
+  continent        String
+  country          String
+  state            String
+  abbreviation     String
+  designation      String
+  mapLocation      Json? // MapOptions
+  mapArea          Json[] // PolygonOptions
+  collectionPoints Json[] // CollectionPoints
+  streetRelation   String[]
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deleted   DateTime?
+
+  User           User[]
+  Volunteer      Volunteer[]
+  Agenda         Agenda[]
+  WelcomedFamily WelcomedFamily[]
+  Church         Church[]
+  Collaborator   Collaborator[]
+  Announcement   Announcement[]
+  OfferorFamily  OfferorFamily[]
+  Report         Report[]
+  Testimonial    Testimonial[]
+  MonthlyOffer   MonthlyOffer[]
+  File           File[]
+  RecoveryHouse  RecoveryHouse[]
+
+  @@map("fields")
+}
+
+model Volunteer {
+  id          String     @id @default(uuid())
+  firstName   String
+  lastName    String?
+  email       String?
+  avatar      String?
+  joinedDate  DateTime
+  occupation  Occupation @default(SUPPORT_SERVICE)
+  church      String?
+  priest      String?
+  observation String?
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deleted   DateTime?
+
+  field   Field  @relation(fields: [fieldId], references: [id], onDelete: Cascade)
+  fieldId String
+
+  @@map("volunteers")
+}
+
+model Agenda {
+  id          String   @id @default(uuid())
+  title       String
+  message     String
+  attachments String[]
+  date        DateTime
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deleted   DateTime?
+
+  field   Field?  @relation(fields: [fieldId], references: [id], onDelete: Cascade)
+  fieldId String?
+
+  @@map("agenda")
+}
+
+model WelcomedFamily {
+  id             String @id @default(uuid())
+  representative String
+  observation    String
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deleted   DateTime?
+
+  field   Field  @relation(fields: [fieldId], references: [id], onDelete: Cascade)
+  fieldId String
+
+  @@map("welcomedFamilies")
+}
+
+model Church {
+  id          String     @id @default(uuid())
+  name        String
+  description String
+  images      String[]
+  type        ChurchType
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deleted   DateTime?
+
+  field   Field  @relation(fields: [fieldId], references: [id], onDelete: Cascade)
+  fieldId String
+
+  @@map("churches")
+}
+
+model Collaborator {
+  id          String @id @default(uuid())
+  title       String
+  description String
+  image       String?
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deleted   DateTime?
+
+  field   Field  @relation(fields: [fieldId], references: [id], onDelete: Cascade)
+  fieldId String
+
+  @@map("collaborators")
+}
+
+model Announcement {
+  id          String   @id @default(uuid())
+  title       String
+  message     String
+  attachments String[]
+  fixed       Boolean  @default(false)
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deleted   DateTime?
+
+  field   Field?  @relation(fields: [fieldId], references: [id], onDelete: Cascade)
+  fieldId String?
+
+  @@map("announcements")
+}
+
+model OfferorFamily {
+  id                 String             @id @default(uuid())
+  representative     String
+  commitment         String
+  churchDenomination String?
+  group              OfferorFamilyGroup
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deleted   DateTime?
+
+  field   Field  @relation(fields: [fieldId], references: [id], onDelete: Cascade)
+  fieldId String
+
+  @@map("offerorFamilies")
+}
+
+model Report {
+  id               String     @id @default(uuid())
+  title            String
+  text             String?
+  shortDescription String
+  attachments      String[]
+  month            Int?
+  year             Int
+  type             ReportType
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deleted   DateTime?
+
+  field   Field  @relation(fields: [fieldId], references: [id], onDelete: Cascade)
+  fieldId String
+
+  @@map("reports")
+}
+
+model Testimonial {
+  id    String  @id @default(uuid())
+  name  String
+  email String?
+  text  String
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deleted   DateTime?
+
+  field   Field?  @relation(fields: [fieldId], references: [id], onDelete: Cascade)
+  fieldId String?
+
+  @@map("testimonials")
+}
+
+model MonthlyOffer {
+  id            String @id @default(uuid())
+  month         Int
+  year          Int
+  foodQnt       Int
+  monetaryValue Float
+  othersQnt     Int
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deleted   DateTime?
+
+  field   Field  @relation(fields: [fieldId], references: [id], onDelete: Cascade)
+  fieldId String
+
+  @@map("monthlyOffers")
+}
+
+model RecoveryHouse {
+  id          String @id @default(uuid())
+  title       String
+  description String
+  image       String?
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deleted   DateTime?
+
+  field   Field  @relation(fields: [fieldId], references: [id], onDelete: Cascade)
+  fieldId String
+
+  @@map("recoveryHouse")
+}

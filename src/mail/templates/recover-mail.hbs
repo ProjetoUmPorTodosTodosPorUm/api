@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recuperação de Conta | {{ domain }}</title>
+    <style type="text/css">
+        /* Setup / Reset */
+        @import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&display=swap');
+        html,
+        body {
+            font-family: 'Lato', sans-serif;
+            margin: 0;
+            padding: 0;
+            scroll-behavior: smooth;
+            width: 100vw;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        p {
+            text-align: justify;
+        }
+
+        .no-text-indent {
+            text-indent: initial;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        /* Real deal */
+        body {
+            display: flex;
+            flex-direction: column;
+            //justify-content: space-around;
+            align-items: center;
+            color: #000;
+
+            background-color: lightgray;
+        }
+
+        /* Logo */
+        .logo {
+            cursor: pointer;
+            margin-top: 2rem;
+            margin-bottom: 4rem;
+        }
+
+        .logo a {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-decoration: none;
+        }
+
+        .logo a img {
+            height: 100px;
+        }
+
+        .logo a h2 {
+            font-size: 1.2rem;
+            color: #000;
+        }
+
+        /* Card*/
+        .card {
+            background-color: #fff;
+            padding: 2rem 1rem;
+            border-radius: .2rem;
+        }
+
+        .card .body h1 {
+            margin-bottom: 0;
+        }
+
+        .card .body .button {
+            display: block;
+            width: fit-content;
+
+            margin: 2rem auto 2rem;
+            padding: 1.2rem 2rem;
+            border-radius: .2rem;
+
+            color: #fff;
+            background-color: blue;
+            text-decoration: none;
+            
+            transition: .2s ease-out;
+        }
+
+        .card .body .button:hover {
+            color: blue;
+            background-color: lightblue;
+        }
+
+        .card .body .token {
+            display: block;
+            width: fit-content;
+
+            margin: 1rem auto 2rem;
+            padding: .6rem 1rem;
+            border: 0;
+            border-radius: .2rem;
+            border-bottom: .3rem solid blue;
+
+            color: blue;
+            background-color: lightblue;
+            text-decoration: none;
+            letter-spacing: .8rem;
+
+            transition: .2s ease-out;
+        }
+
+         .card .body .token:hover {
+            color: blue;
+            background-color: lightblue;
+        }
+
+        /* Observation */
+        .observation {
+            position: relative;
+            top: 0;
+        }
+
+        .observation p {
+            opacity: .4;
+        }
+    </style>
+</head>
+<body>
+    <div class="logo">
+        <a href="{{ domain }}">
+            <img src="{{domain}}/images/logo.png" alt="Logo">
+            <h2>Projeto "Um Por Todos! Todos Por Um."</h2>
+        </a>
+    </div>
+    <div class="card">
+        <div class="body">
+            <h1>Olá, {{ name }}!</h1>
+            <p>Aqui está o seu token para criar sua nova senha:  <div class="token" href="#">{{ token }}</div></p>
+        </div>
+    </div>
+    <div class="observation">
+        <p>Caso acredite que não deveria receber este e-mail, por favor, ignore-o.</p>
+    </div>
+</body>
+</html>
