@@ -43,7 +43,7 @@
    
     "docker:ci:stop": "docker compose -f docker-compose.ci.yml rm test-db -s -f -v",
     "docker:ci:start": "docker compose -f docker-compose.ci.yml up test-db -d",
-    "docker:ci:restart": "npm run docker:ci:stop && npm run docker:ci:start",
+    "docker:ci:restart": "npm run docker:ci:stop && npm run docker:ci:start && sleep 5",
     "pretest:e2e:ci": "npm run docker:ci:restart && npx prisma migrate reset --force --skip-seed",
     "test:e2e:ci": "jest -i --ci --forceExit --config jest-e2e.json",
     "pretest:int:ci": "npm run pretest:e2e:ci",
