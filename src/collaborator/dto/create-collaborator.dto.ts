@@ -1,21 +1,21 @@
-import { ApiProperty } from '@nestjs/swagger';
-import { IsOptional } from 'class-validator';
-import { IsNotEmpty, IsString, IsUUID } from 'src/utils';
+import { ApiProperty } from '@nestjs/swagger'
+import { IsOptional } from 'class-validator'
+import { IsNotEmpty, IsString, IsUUID } from 'src/utils'
 
 export class CreateCollaboratorDto {
-  @IsNotEmpty()
-  @IsString()
-  title: string;
-  @IsNotEmpty()
-  @IsString()
-  description: string;
-  @IsOptional()
-  @IsString()
-  image?: string;
-  @ApiProperty({
-    format: 'uuid'
-  })
-  @IsOptional()
-  @IsUUID('4')
-  field?: string;
+	@IsNotEmpty()
+	@IsString()
+	title: string
+	@IsNotEmpty()
+	@IsString()
+	description: string
+	@IsOptional()
+	@IsString()
+	image?: string
+	@ApiProperty({
+		format: 'uuid',
+	})
+	@IsOptional()
+	@IsUUID('4')
+	field?: string
 }

@@ -140,7 +140,7 @@ CREATE TABLE "agenda" (
 CREATE TABLE "welcomedFamilies" (
     "id" TEXT NOT NULL,
     "representative" TEXT NOT NULL,
-    "observation" TEXT NOT NULL,
+    "observation" TEXT,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
     "deleted" TIMESTAMP(3),
@@ -268,6 +268,19 @@ CREATE TABLE "recoveryHouse" (
     "fieldId" TEXT NOT NULL,
 
     CONSTRAINT "recoveryHouse_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "contact" (
+    "id" TEXT NOT NULL,
+    "name" TEXT NOT NULL,
+    "email" TEXT NOT NULL,
+    "message" TEXT NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
+    "deleted" TIMESTAMP(3),
+
+    CONSTRAINT "contact_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateIndex

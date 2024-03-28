@@ -1,1 +1,1 @@
-export * from './restricted.guard';
+export * from './restricted.guard'

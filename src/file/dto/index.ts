@@ -1,2 +1,2 @@
-export * from './file-response.dto';
-export * from './create-file.dto';
+export * from './file-response.dto'
+export * from './create-file.dto'
