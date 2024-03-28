@@ -1,5 +1,5 @@
-import { IsNotEmpty, IsUUID } from 'src/utils';
-import { ApiProperty } from '@nestjs/swagger';
+import { IsNotEmpty, IsUUID } from 'src/utils'
+import { ApiProperty } from '@nestjs/swagger'
 
 export class UnrestrictUserDto {
 	@ApiProperty({
@@ -7,5 +7,5 @@ export class UnrestrictUserDto {
 	})
 	@IsNotEmpty()
 	@IsUUID('4')
-	id: string;
+	id: string
 }

@@ -1,2 +1,2 @@
-export * from './create-testimonial.dto';
-export * from './update-testimonial.dto';
+export * from './create-testimonial.dto'
+export * from './update-testimonial.dto'

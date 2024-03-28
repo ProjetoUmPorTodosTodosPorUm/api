@@ -1,1 +1,1 @@
-export * from './files-type.validator';
+export * from './files-type.validator'

@@ -1,1 +1,1 @@
-export * from './create-log.dto';
+export * from './create-log.dto'

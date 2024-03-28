@@ -1,8 +1,8 @@
-import { IsString } from "src/utils";
+import { IsString } from 'src/utils'
 
 export class RefreshResponseDto {
-  @IsString()
-  acessToken: string;
-  @IsString()
-  refreshToken: string;
+	@IsString()
+	acessToken: string
+	@IsString()
+	refreshToken: string
 }
