@@ -1,8 +1,11 @@
-# ProjetoUmPorTodosTodosPorUm.org's API
+# API
+API component of [projetoumportodostodosporum.org's](https://projetoumportodostodosporum.org) website.
+
 
 ## Dependencies
-- [Docker with Docker Compose](https://docs.docker.com/get-docker/)
+- [Server Component](https://github.com/ProjetoUmPorTodosTodosPorUm/server)
 - [asdf](https://asdf-vm.com/guide/getting-started.html)
+
 
 ## Install
 ```bash
@@ -10,23 +13,31 @@ $ asdf install
 $ npm install
 ```
 
+
 ## Environment Vars
-ENVs from .env.dev's file under 'NESTJS API' and 'DUPLICATI' sections should be loaded, [see how](https://help.ubuntu.com/community/EnvironmentVariables#System-wide_environment_variables).
+Create a copy from ".env.dev.example" file in the root folder and rename to ".env.dev" and update it accordingly.
 
 
 ## Run
 ### Development
 ```bash
-$ npm run start:dev
-```
-### Production
-```bash
-$ npm run build:docker
-$ npm run start:prod
+$ npm run dev
 ```
 
+### Preview
+Build the preview image of API ``$ npm run build:docker:preview`` then start the [Server](https://github.com/ProjetoUmPorTodosTodosPorUm/server) in preview mode.
+
+### Production
+Build the production image of API ``$ npm run build:docker`` then start the [Server](https://github.com/ProjetoUmPorTodosTodosPorUm/server) in production mode.
+
+
 ## Documentation 
-Access http://api.localhost/doc. 
+Running in development mode access http://api.localhost/doc.
+
+
+## Prisma Studio
+Running in development mode: ``$ npm run prisma:studio``
+
 
 ## Test
 ```bash
@@ -44,10 +55,9 @@ $ npm run test:unit:cov
 $ npm run test:int:cov
 $ npm run test:e2e:cov
 ```
-## Related
-- [Trello Board](https://trello.com/b/oXESZ0u2/web-api)
-- [DbDiagram](https://dbdiagram.io/d/63caa51e296d97641d7b071a)
 
-Other repositories related to this:
-- [cms-projeto](https://github.com/RenanGalvao/cms-projeto)
-- [web-projeto](https://github.com/RenanGalvao/web-projeto)
+
+## Related Repositories
+- [Server](https://github.com/ProjetoUmPorTodosTodosPorUm/server) (server)
+- [Website](https://github.com/ProjetoUmPorTodosTodosPorUm/web) (web)
+- [Content Management](https://github.com/ProjetoUmPorTodosTodosPorUm/cms) (cms)

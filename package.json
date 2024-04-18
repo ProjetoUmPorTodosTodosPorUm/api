@@ -1,8 +1,8 @@
 {
-  "name": "api-projeto",
+  "name": "api",
   "version": "1.0.0",
   "description": "projetoumportodostodosporum.org's API",
-  "author": "",
+  "author": "https://github.com/RenanGalvao",
   "private": true,
   "license": "UNLICENSED",
   "prisma": {
@@ -13,9 +13,9 @@
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
     "prebuild": "rimraf dist",
     "build": "nest build",
-    "build:docker": "docker build --target prod-image -t renangalvao/project:api-latest .",
-    "postbuild:docker": "docker push renangalvao/project:api-latest",
-    "build:docker:preview": "docker build --target preview-image -t project/api:preview .",
+    "build:docker": "docker build --target prod-image -t renangalvao/project:api-$npm_package_version -t renangalvao/project:api-latest .",
+    "postbuild:docker": "docker push --all-tags renangalvao/project",
+    "build:docker:preview": "docker build --no-cache --target preview-image -t project/api:preview .",
     "prisma:studio": "dotenv -e .env.dev -- npx prisma studio",
     "prisma:dev:migrate": "dotenv -e .env.dev -- npx prisma migrate dev --name init",
     "prisma:dev:reset": "dotenv -e .env.dev -- npx prisma migrate reset --force",
