@@ -29,6 +29,7 @@ RUN chown -R node:node ./node_modules/@prisma
 FROM node:19.4-alpine as preview-image
 WORKDIR /usr/src/app
 ENV NODE_ENV preview
+ENV TZ America/Sao_Paulo
 
 # Creates files dir 
 RUN mkdir files && chown node:node files
@@ -49,6 +50,7 @@ CMD npx prisma migrate deploy; npx prisma db seed; node dist/main.js
 FROM base-image as prod-image
 WORKDIR /usr/src/app
 ENV NODE_ENV production
+ENV TZ America/Sao_Paulo
 
 # Creates files dir
 RUN mkdir files && chown node:node files
