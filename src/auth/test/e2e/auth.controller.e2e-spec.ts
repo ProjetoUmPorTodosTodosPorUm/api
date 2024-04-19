@@ -19,6 +19,8 @@ import { ResponseInterceptor } from 'src/response.interceptor'
 import { MailModule } from 'src/mail/mail.module'
 import { TokenModule } from 'src/token/token.module'
 import { CreateMailPayload } from 'src/mail/dto'
+import { BullModule } from '@nestjs/bull'
+import { QueueModule } from 'src/queue/queue.module'
 
 jest.setTimeout(60 * 1_000)
 
@@ -72,6 +74,14 @@ describe('Auth Controller E2E', () => {
 				UserModule,
 
 				// Specific
+				BullModule.forRoot({
+					redis: {
+						host: 'localhost',
+						port: 6379,
+					},	
+				}),
+		
+				QueueModule,
 				FieldModule,
 				MailModule,
 				TokenModule,
