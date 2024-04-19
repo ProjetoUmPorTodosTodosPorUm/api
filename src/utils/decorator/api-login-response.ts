@@ -2,7 +2,7 @@ import { applyDecorators } from '@nestjs/common'
 import { ApiBody, ApiCreatedResponse, ApiExtraModels, getSchemaPath } from '@nestjs/swagger'
 import { LoginDto, LoginResponseDto } from 'src/auth/dto'
 
-export const ApiLogin = () => {
+export const ApiLoginResponse = () => {
 	return applyDecorators(
 		ApiBody({ type: LoginDto }),
 		ApiExtraModels(LoginResponseDto),

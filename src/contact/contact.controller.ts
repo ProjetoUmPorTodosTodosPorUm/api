@@ -24,7 +24,7 @@ export class ContactController {
 
 	@ApiCreatedResponse(CreateContactDto)
 	@Public()
-	@Throttle(3, HOUR_IN_SECS)
+	@Throttle({ default: { limit: 3, ttl: HOUR_IN_SECS } })
 	@Post()
 	create(@Body() createContactDto: CreateContactDto) {
 		return this.contactService.create(createContactDto)

@@ -2,7 +2,7 @@ import { applyDecorators } from '@nestjs/common'
 import { ApiCreatedResponse, ApiExtraModels, getSchemaPath } from '@nestjs/swagger'
 import { RefreshResponseDto } from 'src/auth/dto'
 
-export const ApiRefresh = () => {
+export const ApiRefreshResponse = () => {
 	return applyDecorators(
 		ApiExtraModels(RefreshResponseDto),
 		ApiCreatedResponse({
