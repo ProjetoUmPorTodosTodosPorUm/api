@@ -22,7 +22,7 @@ import { CreateMailPayload } from 'src/mail/dto'
 import { BullModule } from '@nestjs/bull'
 import { QueueModule } from 'src/queue/queue.module'
 
-jest.setTimeout(60 * 1_000)
+jest.setTimeout(30 * 1_000)
 
 describe('Auth Controller E2E', () => {
 	let app: NestExpressApplication
