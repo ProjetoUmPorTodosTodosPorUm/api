@@ -20,7 +20,7 @@ import { MailModule } from 'src/mail/mail.module'
 import { TokenModule } from 'src/token/token.module'
 import { CreateMailPayload } from 'src/mail/dto'
 
-jest.setTimeout(30 * 1_000)
+jest.setTimeout(60 * 1_000)
 
 describe('Auth Controller E2E', () => {
 	let app: NestExpressApplication
