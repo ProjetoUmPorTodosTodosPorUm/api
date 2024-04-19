@@ -86,4 +86,9 @@ export const routes = {
 		plural: 'Contatos',
 		gender: 'o',
 	},
+	queue: {
+		singular: 'Trabalho',
+		plural: 'Trabalhos',
+		gender: 'o'
+	}
 } as Routes

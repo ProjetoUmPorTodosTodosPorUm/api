@@ -1,7 +1,7 @@
 ###################
 # BASE IMAGE
 ###################
-FROM node:19.4-alpine as base-image
+FROM node:21.7-alpine as base-image
 
 # Create APP directory
 # be aware WORKDIR creates directories as root instead of USER 
@@ -26,7 +26,7 @@ RUN chown -R node:node ./node_modules/@prisma
 ###################
 # PREVIEW IMAGE
 ###################
-FROM node:19.4-alpine as preview-image
+FROM node:21.7-alpine as preview-image
 WORKDIR /usr/src/app
 ENV NODE_ENV preview
 ENV TZ America/Sao_Paulo
@@ -47,7 +47,7 @@ CMD npx prisma migrate deploy; npx prisma db seed; node dist/main.js
 ###################
 # PROD IMAGE
 ###################
-FROM base-image as prod-image
+FROM node:21.7-alpine as prod-image
 WORKDIR /usr/src/app
 ENV NODE_ENV production
 ENV TZ America/Sao_Paulo

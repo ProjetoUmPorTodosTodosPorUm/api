@@ -25,10 +25,10 @@ $ npm run dev
 ```
 
 ### Preview
-Build the preview image of API ``$ npm run build:docker:preview`` then start the [Server](https://github.com/ProjetoUmPorTodosTodosPorUm/server) in preview mode.
+Build the preview image of this componenet with ``$ npm run build:docker:preview`` and others, then start the [Server](https://github.com/ProjetoUmPorTodosTodosPorUm/server) in preview mode.
 
 ### Production
-Build the production image of API ``$ npm run build:docker`` then start the [Server](https://github.com/ProjetoUmPorTodosTodosPorUm/server) in production mode.
+Build the production image of this componenet with ``$ npm run build:docker`` and others, then start the [Server](https://github.com/ProjetoUmPorTodosTodosPorUm/server) in production mode.
 
 
 ## Documentation 

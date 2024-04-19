@@ -1,18 +1,14 @@
 import { Module } from '@nestjs/common'
 import { MailService } from './mail.service'
-import { MailerModule } from '@nestjs-modules/mailer'
-import { TokenModule } from 'src/token/token.module'
-import { ConfigService } from '@nestjs/config'
+import { BullModule } from '@nestjs/bull'
 
 @Module({
 	imports: [
-		MailerModule.forRootAsync({
-			useFactory: (configService: ConfigService) => configService.get('mailer'),
-			inject: [ConfigService],
+		BullModule.registerQueue({
+			name: 'queue'
 		}),
-		TokenModule,
 	],
 	providers: [MailService],
 	exports: [MailService],
 })
-export class MailModule {}
+export class MailModule { }

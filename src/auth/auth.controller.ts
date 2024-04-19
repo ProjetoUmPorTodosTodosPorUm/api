@@ -9,19 +9,19 @@ import { Throttle } from '@nestjs/throttler'
 import { HOUR_IN_SECS } from 'src/constants'
 import { TokenValidateDto } from './dto'
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger'
-import { ApiLogin } from 'src/utils/decorator/api-login'
-import { ApiRefresh } from 'src/utils/decorator/api-refresh'
+import { ApiLoginResponse } from 'src/utils/decorator/api-login-response'
+import { ApiRefreshResponse } from 'src/utils/decorator/api-refresh-response'
 import { Roles } from './roles'
 
 @ApiTags('Auth')
-@Throttle(3, HOUR_IN_SECS)
+@Throttle({ default: { limit: 3, ttl: HOUR_IN_SECS } })
 @Controller('auth')
 export class AuthController {
-	constructor(private authService: AuthService) {}
+	constructor(private authService: AuthService) { }
 
-	@ApiLogin()
+	@ApiLoginResponse()
 	@Public()
-	@Throttle(10, HOUR_IN_SECS)
+	@Throttle({ default: { limit: 10, ttl: HOUR_IN_SECS } })
 	@UseGuards(LocalAuthGuard)
 	@Post('signin')
 	signin(@Jwt() user: User) {
@@ -65,8 +65,8 @@ export class AuthController {
 	}
 
 	@ApiBearerAuth()
-	@ApiRefresh()
-	@Throttle(10, HOUR_IN_SECS)
+	@ApiRefreshResponse()
+	@Throttle({ default: { limit: 10, ttl: HOUR_IN_SECS } })
 	@Public()
 	@UseGuards(RefreshJwtAuthGuard)
 	@Post('refresh')
@@ -76,7 +76,7 @@ export class AuthController {
 
 	@ApiBearerAuth()
 	@ApiBooleanResponse()
-	@Throttle(10, HOUR_IN_SECS)
+	@Throttle({ default: { limit: 10, ttl: HOUR_IN_SECS } })
 	@Post('logout')
 	logout(@Jwt() user: User) {
 		return this.authService.logout(user)

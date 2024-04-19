@@ -56,7 +56,7 @@ describe('Agenda Service Integration', () => {
 					isGlobal: true,
 				}),
 
-				// Basic Routes
+				// Basic Modules
 				AuthModule,
 				PrismaModule,
 				UserModule,

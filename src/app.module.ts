@@ -30,6 +30,8 @@ import { ScheduleModule } from '@nestjs/schedule'
 import { RecoveryHouseModule } from './recovery-house/recovery-house.module'
 import { HealthModule } from './health/health.module'
 import { ContactModule } from './contact/contact.module'
+import { BullModule } from '@nestjs/bull'
+import { QueueModule } from './queue/queue.module'
 
 @Module({
 	imports: [
@@ -39,11 +41,19 @@ import { ContactModule } from './contact/contact.module'
 		}),
 		ThrottlerModule.forRootAsync({
 			inject: [ConfigService],
-			useFactory: (config: ConfigService) => ({
+			useFactory: (config: ConfigService) => [{
 				ttl: config.get('throttle.ttl'),
 				limit: config.get('throttle.limit'),
-			}),
+			}],
 		}),
+		BullModule.forRoot({
+			redis: {
+				host: 'localhost',
+				port: 6379,
+			},	
+		}),
+
+		QueueModule,
 		ScheduleModule.forRoot(),
 
 		// Basic Routes
