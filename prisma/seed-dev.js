@@ -211,6 +211,7 @@ const development = async () => {
     for (let i = 0; i < fields.length; i++) {
         for (let j = 0; j <= personsPerField; j++) {
             offerorFamilyData.push({
+                familyName: names.pop() || 'familyName',
                 representative: names.pop() || 'João',
                 commitment: 'commitment',
                 group: 'COMMUNITY',
@@ -409,6 +410,7 @@ const development = async () => {
     for (let i = 0; i < fields.length; i++) {
         for (let j = 0; j <= personsPerField; j++) {
             welcomedFamiliesData.push({
+                familyName: names.pop() || 'familyName',
                 representative: names.pop() || 'João',
                 observation: 'Lorem Ipsum Mene Ragnarok KEt',
                 fieldId: fields[i].id,

@@ -6,6 +6,9 @@ export class CreateWelcomedFamilyDto {
 	@IsNotEmpty()
 	@IsString()
 	representative: string
+	@IsNotEmpty()
+	@IsString()
+	familyName: string
 	@IsOptional()
 	@IsNotEmpty()
 	@IsString()
