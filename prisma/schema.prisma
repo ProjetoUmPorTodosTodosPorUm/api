@@ -210,7 +210,8 @@ model Agenda {
 }
 
 model WelcomedFamily {
-  id             String @id @default(uuid())
+  id             String  @id @default(uuid())
+  familyName     String
   representative String
   observation    String?
 
@@ -276,6 +277,7 @@ model Announcement {
 
 model OfferorFamily {
   id                 String             @id @default(uuid())
+  familyName         String
   representative     String
   commitment         String
   churchDenomination String?

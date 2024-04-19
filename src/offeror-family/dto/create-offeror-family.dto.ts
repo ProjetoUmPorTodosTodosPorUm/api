@@ -9,6 +9,9 @@ export class CreateOfferorFamilyDto {
 	representative: string
 	@IsNotEmpty()
 	@IsString()
+	familyName: string
+	@IsNotEmpty()
+	@IsString()
 	commitment: string
 	@IsOptional()
 	@IsString()

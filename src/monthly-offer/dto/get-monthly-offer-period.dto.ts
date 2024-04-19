@@ -6,6 +6,6 @@ export class GetMonthlyOfferPeriod {
 		format: 'uuid',
 	})
 	@IsNotEmpty()
-	@IsUUID('4')
+	@IsUUID('all')
 	field: string
 }

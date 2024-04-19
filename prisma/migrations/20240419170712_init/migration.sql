@@ -139,6 +139,7 @@ CREATE TABLE "agenda" (
 -- CreateTable
 CREATE TABLE "welcomedFamilies" (
     "id" TEXT NOT NULL,
+    "familyName" TEXT NOT NULL,
     "representative" TEXT NOT NULL,
     "observation" TEXT,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -196,6 +197,7 @@ CREATE TABLE "announcements" (
 -- CreateTable
 CREATE TABLE "offerorFamilies" (
     "id" TEXT NOT NULL,
+    "familyName" TEXT NOT NULL,
     "representative" TEXT NOT NULL,
     "commitment" TEXT NOT NULL,
     "churchDenomination" TEXT,
