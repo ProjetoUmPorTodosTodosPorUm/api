@@ -30,12 +30,14 @@ describe('Welcomed Family Service Integration', () => {
 	const password = '12345678'
 	const hashedPassword = bcrypt.hashSync(password, bcrypt.genSaltSync())
 
+	const familyName = 'Sousa'
 	const representative = 'Mário'
 	const observation = 'Período'
 
-	const createWelcomedFamily = async (representative: string, observation: string, field: string) =>
+	const createWelcomedFamily = async (familyName: string, representative: string, observation: string, field: string) =>
 		await prisma.welcomedFamily.create({
 			data: {
+				familyName,
 				representative,
 				observation,
 				field: {
@@ -93,6 +95,7 @@ describe('Welcomed Family Service Integration', () => {
 	describe('create()', () => {
 		it('Should Create an Welcomed Family (as USER)', async () => {
 			const welcomedFamily = await welcomedFamilyService.create(user, {
+				familyName,
 				representative,
 				observation,
 			})
@@ -104,6 +107,7 @@ describe('Welcomed Family Service Integration', () => {
 
 		it('Should Create an Welcomed Family (as ADMIN)', async () => {
 			const welcomedFamily = await welcomedFamilyService.create(admin, {
+				familyName,
 				representative,
 				observation,
 			})
@@ -116,6 +120,7 @@ describe('Welcomed Family Service Integration', () => {
 		it('Should Not Create An Assited Family (as WEB MASTER && Missing Data)', async () => {
 			try {
 				await welcomedFamilyService.create(webMaster, {
+					familyName,
 					representative,
 					observation,
 				})
@@ -127,6 +132,7 @@ describe('Welcomed Family Service Integration', () => {
 
 		it('Should Create an Welcomed Family (as WEB MASTER)', async () => {
 			const welcomedFamily = await welcomedFamilyService.create(webMaster, {
+				familyName,
 				representative,
 				observation,
 				field: field.id,
@@ -153,6 +159,7 @@ describe('Welcomed Family Service Integration', () => {
 				.map(
 					(v, i) =>
 						({
+							familyName,
 							representative: `João ${i}`,
 							observation: 'Período',
 							fieldId: field.id,
@@ -175,6 +182,7 @@ describe('Welcomed Family Service Integration', () => {
 				.map(
 					(v, i) =>
 						({
+							familyName,
 							representative: `João ${i}`,
 							observation: 'Período',
 							fieldId: field.id,
@@ -202,7 +210,7 @@ describe('Welcomed Family Service Integration', () => {
 		})
 
 		it('Should Return an Welcomed Family', async () => {
-			const welcomedFamilyCreated = await createWelcomedFamily(representative, observation, field.id)
+			const welcomedFamilyCreated = await createWelcomedFamily(familyName, representative, observation, field.id)
 
 			const welcomedFamily = await welcomedFamilyService.findOne(welcomedFamilyCreated.id)
 			expect(welcomedFamily.representative).toBe(representative)
@@ -251,7 +259,7 @@ describe('Welcomed Family Service Integration', () => {
 		it('Should Not Update an Welcomed Family (Different Field as USER)', async () => {
 			try {
 				const differentField = await createField(prisma, 'América', 'Brasil', 'São Paulo', 'AMEBRSP01', 'Designação')
-				const welcomedFamily = await createWelcomedFamily(representative, observation, differentField.id)
+				const welcomedFamily = await createWelcomedFamily(familyName, representative, observation, differentField.id)
 				await welcomedFamilyService.update(welcomedFamily.id, user, {
 					representative: 'lol',
 				})
@@ -264,7 +272,7 @@ describe('Welcomed Family Service Integration', () => {
 		it('Should Not Update an Welcomed Family (Different Field as ADMIN)', async () => {
 			try {
 				const differentField = await createField(prisma, 'América', 'Brasil', 'São Paulo', 'AMEBRSP01', 'Designação')
-				const welcomedFamily = await createWelcomedFamily(representative, observation, differentField.id)
+				const welcomedFamily = await createWelcomedFamily(familyName, representative, observation, differentField.id)
 				await welcomedFamilyService.update(welcomedFamily.id, admin, {
 					representative: 'lol',
 				})
@@ -275,7 +283,7 @@ describe('Welcomed Family Service Integration', () => {
 		})
 
 		it('Should Update an Welcomed Family (as USER)', async () => {
-			const welcomedFamily = await createWelcomedFamily(representative, observation, field.id)
+			const welcomedFamily = await createWelcomedFamily(familyName, representative, observation, field.id)
 			const newRepresentative = 'Abreu'
 
 			const welcomedFamilyUpdated = await welcomedFamilyService.update(welcomedFamily.id, user, {
@@ -286,7 +294,7 @@ describe('Welcomed Family Service Integration', () => {
 		})
 
 		it('Should Update an Welcomed Family (as ADMIN)', async () => {
-			const welcomedFamily = await createWelcomedFamily(representative, observation, field.id)
+			const welcomedFamily = await createWelcomedFamily(familyName, representative, observation, field.id)
 			const newRepresentative = 'Abreu'
 
 			const welcomedFamilyUpdated = await welcomedFamilyService.update(welcomedFamily.id, admin, {
@@ -298,7 +306,7 @@ describe('Welcomed Family Service Integration', () => {
 
 		it('Should Update an Welcomed Family (as WEB MASTER)', async () => {
 			const differentField = await createField(prisma, 'América', 'Brasil', 'São Paulo', 'AMEBRSP01', 'Designação')
-			const welcomedFamily = await createWelcomedFamily(representative, observation, field.id)
+			const welcomedFamily = await createWelcomedFamily(familyName, representative, observation, field.id)
 			const newRepresentative = 'Abreu'
 
 			const welcomedFamilyUpdated = await welcomedFamilyService.update(welcomedFamily.id, webMaster, {
@@ -345,7 +353,7 @@ describe('Welcomed Family Service Integration', () => {
 		it('Should Not Remove an Welcomed Family (Different Field as USER)', async () => {
 			try {
 				const differentField = await createField(prisma, 'América', 'Brasil', 'São Paulo', 'AMEBRSP01', 'Designação')
-				const welcomedFamily = await createWelcomedFamily(representative, observation, differentField.id)
+				const welcomedFamily = await createWelcomedFamily(familyName, representative, observation, differentField.id)
 
 				await welcomedFamilyService.remove(welcomedFamily.id, user)
 			} catch (error) {
@@ -357,7 +365,7 @@ describe('Welcomed Family Service Integration', () => {
 		it('Should Not Remove an Welcomed Family (Different Field as admin)', async () => {
 			try {
 				const differentField = await createField(prisma, 'América', 'Brasil', 'São Paulo', 'AMEBRSP01', 'Designação')
-				const welcomedFamily = await createWelcomedFamily(representative, observation, differentField.id)
+				const welcomedFamily = await createWelcomedFamily(familyName, representative, observation, differentField.id)
 
 				await welcomedFamilyService.remove(welcomedFamily.id, admin)
 			} catch (error) {
@@ -367,7 +375,7 @@ describe('Welcomed Family Service Integration', () => {
 		})
 
 		it('Should Remove an Welcomed Family (as USER)', async () => {
-			const welcomedFamily = await createWelcomedFamily(representative, observation, field.id)
+			const welcomedFamily = await createWelcomedFamily(familyName, representative, observation, field.id)
 
 			await welcomedFamilyService.remove(welcomedFamily.id, user)
 			const isWelcomedFamilyDeleted = await prisma.welcomedFamily.findFirst({
@@ -380,7 +388,7 @@ describe('Welcomed Family Service Integration', () => {
 		})
 
 		it('Should Remove an Welcomed Family (as ADMIN)', async () => {
-			const welcomedFamily = await createWelcomedFamily(representative, observation, field.id)
+			const welcomedFamily = await createWelcomedFamily(familyName, representative, observation, field.id)
 
 			await welcomedFamilyService.remove(welcomedFamily.id, admin)
 			const isWelcomedFamilyDeleted = await prisma.welcomedFamily.findFirst({
@@ -393,7 +401,7 @@ describe('Welcomed Family Service Integration', () => {
 		})
 
 		it('Should Remove an Welcomed Family (as WEB MASTER)', async () => {
-			const welcomedFamily = await createWelcomedFamily(representative, observation, field.id)
+			const welcomedFamily = await createWelcomedFamily(familyName, representative, observation, field.id)
 
 			await welcomedFamilyService.remove(welcomedFamily.id, webMaster)
 			const isWelcomedFamilyDeleted = await prisma.welcomedFamily.findFirst({
@@ -430,7 +438,7 @@ describe('Welcomed Family Service Integration', () => {
 		it('Should Not Restore a Welcomed Family (Different Field as ADMIN)', async () => {
 			try {
 				const differentField = await createField(prisma, 'América', 'Brasil', 'São Paulo', 'AMEBRSP01', 'Designação')
-				const welcomedFamily = await createWelcomedFamily(representative, observation, differentField.id)
+				const welcomedFamily = await createWelcomedFamily(familyName, representative, observation, differentField.id)
 				await prisma.welcomedFamily.delete({ where: { id: welcomedFamily.id } })
 				await welcomedFamilyService.restore({ ids: [welcomedFamily.id] }, admin)
 			} catch (error) {
@@ -440,7 +448,7 @@ describe('Welcomed Family Service Integration', () => {
 		})
 
 		it('Should Restore an Welcomed Family (as ADMIN)', async () => {
-			const welcomedFamily = await createWelcomedFamily(representative, observation, field.id)
+			const welcomedFamily = await createWelcomedFamily(familyName, representative, observation, field.id)
 			await prisma.welcomedFamily.delete({ where: { id: welcomedFamily.id } })
 
 			await welcomedFamilyService.restore({ ids: [welcomedFamily.id] }, admin)
@@ -454,7 +462,7 @@ describe('Welcomed Family Service Integration', () => {
 		})
 
 		it('Should Restore an Welcomed Family (as WEB MASTER)', async () => {
-			const welcomedFamily = await createWelcomedFamily(representative, observation, field.id)
+			const welcomedFamily = await createWelcomedFamily(familyName, representative, observation, field.id)
 			await prisma.welcomedFamily.delete({ where: { id: welcomedFamily.id } })
 
 			await welcomedFamilyService.restore({ ids: [welcomedFamily.id] }, webMaster)
@@ -492,7 +500,7 @@ describe('Welcomed Family Service Integration', () => {
 		it('Should Not Hard Remove a Welcomed Family (Different Field as ADMIN)', async () => {
 			try {
 				const differentField = await createField(prisma, 'América', 'Brasil', 'São Paulo', 'AMEBRSP01', 'Designação')
-				const welcomedFamily = await createWelcomedFamily(representative, observation, differentField.id)
+				const welcomedFamily = await createWelcomedFamily(familyName, representative, observation, differentField.id)
 				await prisma.welcomedFamily.delete({ where: { id: welcomedFamily.id } })
 				await welcomedFamilyService.hardRemove({ ids: [welcomedFamily.id] }, admin)
 			} catch (error) {
@@ -502,7 +510,7 @@ describe('Welcomed Family Service Integration', () => {
 		})
 
 		it('Should Hard Remove an Welcomed Family (as ADMIN)', async () => {
-			const welcomedFamily = await createWelcomedFamily(representative, observation, field.id)
+			const welcomedFamily = await createWelcomedFamily(familyName, representative, observation, field.id)
 			await prisma.welcomedFamily.delete({ where: { id: welcomedFamily.id } })
 
 			await welcomedFamilyService.hardRemove({ ids: [welcomedFamily.id] }, admin)
@@ -516,7 +524,7 @@ describe('Welcomed Family Service Integration', () => {
 		})
 
 		it('Should Hard Remove an Welcomed Family (as WEB MASTER)', async () => {
-			const welcomedFamily = await createWelcomedFamily(representative, observation, field.id)
+			const welcomedFamily = await createWelcomedFamily(familyName, representative, observation, field.id)
 			await prisma.welcomedFamily.delete({ where: { id: welcomedFamily.id } })
 
 			await welcomedFamilyService.hardRemove({ ids: [welcomedFamily.id] }, webMaster)

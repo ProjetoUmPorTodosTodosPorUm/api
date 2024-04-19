@@ -33,12 +33,14 @@ describe('Welcomed Family Controller E2E', () => {
 	const hashedPassword = bcrypt.hashSync(password, bcrypt.genSaltSync())
 	const baseRoute = '/welcomed-family'
 
+	const familyName = 'Sousa'
 	const representative = 'Mário'
 	const observation = 'De 01/01/2010 a 01/05/2010'
 
-	const createWelcomedFamily = async (representative: string, observation: string, field: string) =>
+	const createWelcomedFamily = async (familyName: string, representative: string, observation: string, field: string) =>
 		await prisma.welcomedFamily.create({
 			data: {
+				familyName,
 				representative,
 				observation,
 				field: {
@@ -112,7 +114,7 @@ describe('Welcomed Family Controller E2E', () => {
 		})
 
 		it('Should Not Update an Welcomed Family', async () => {
-			const welcomedFamily = await createWelcomedFamily(representative, observation, field.id)
+			const welcomedFamily = await createWelcomedFamily(familyName, representative, observation, field.id)
 			await request(app.getHttpServer())
 				.put(`${baseRoute}/${welcomedFamily.id}`)
 				.send({ representative: 'Abreu' })
@@ -120,7 +122,7 @@ describe('Welcomed Family Controller E2E', () => {
 		})
 
 		it('Should Not Remove an Welcomed Family', async () => {
-			const welcomedFamily = await createWelcomedFamily(representative, observation, field.id)
+			const welcomedFamily = await createWelcomedFamily(familyName, representative, observation, field.id)
 
 			await request(app.getHttpServer()).delete(`${baseRoute}/${welcomedFamily.id}`).expect(401)
 
@@ -130,7 +132,7 @@ describe('Welcomed Family Controller E2E', () => {
 		})
 
 		it('Should Not Restore an Welcomed Family', async () => {
-			const welcomedFamily = await createWelcomedFamily(representative, observation, field.id)
+			const welcomedFamily = await createWelcomedFamily(familyName, representative, observation, field.id)
 			await prisma.welcomedFamily.delete({ where: { id: welcomedFamily.id } })
 
 			await request(app.getHttpServer())
@@ -144,7 +146,7 @@ describe('Welcomed Family Controller E2E', () => {
 		})
 
 		it('Should Not HardRemove an Welcomed Family', async () => {
-			const welcomedFamily = await createWelcomedFamily(representative, observation, field.id)
+			const welcomedFamily = await createWelcomedFamily(familyName, representative, observation, field.id)
 			await prisma.welcomedFamily.delete({ where: { id: welcomedFamily.id } })
 
 			await request(app.getHttpServer())
@@ -167,6 +169,7 @@ describe('Welcomed Family Controller E2E', () => {
 				.post(baseRoute)
 				.set('Authorization', `Bearer ${userToken}`)
 				.send({
+					familyName,
 					representative,
 					observation,
 				})
@@ -178,7 +181,7 @@ describe('Welcomed Family Controller E2E', () => {
 
 		it('Should Not Update an Welcomed Family (Different Field)', async () => {
 			const differentField = await createField(prisma, 'América', 'Brasil', 'São Paulo', 'AMEBRSP01', 'Designação')
-			const welcomedFamily = await createWelcomedFamily(representative, observation, differentField.id)
+			const welcomedFamily = await createWelcomedFamily(familyName, representative, observation, differentField.id)
 			const newRepresentative = 'Abreu'
 
 			await request(app.getHttpServer())
@@ -189,7 +192,7 @@ describe('Welcomed Family Controller E2E', () => {
 		})
 
 		it('Should Update an Welcomed Family', async () => {
-			const welcomedFamily = await createWelcomedFamily(representative, observation, field.id)
+			const welcomedFamily = await createWelcomedFamily(familyName, representative, observation, field.id)
 			const newRepresentative = 'Abreu'
 
 			const res = await request(app.getHttpServer())
@@ -203,7 +206,7 @@ describe('Welcomed Family Controller E2E', () => {
 
 		it('Should Not Remove an Welcomed Family (Different Field)', async () => {
 			const differentField = await createField(prisma, 'América', 'Brasil', 'São Paulo', 'AMEBRSP01', 'Designação')
-			const welcomedFamily = await createWelcomedFamily(representative, observation, differentField.id)
+			const welcomedFamily = await createWelcomedFamily(familyName, representative, observation, differentField.id)
 			await request(app.getHttpServer())
 				.delete(`${baseRoute}/${welcomedFamily.id}`)
 				.set('Authorization', `Bearer ${userToken}`)
@@ -211,7 +214,7 @@ describe('Welcomed Family Controller E2E', () => {
 		})
 
 		it('Should Remove an Welcomed Family', async () => {
-			const welcomedFamily = await createWelcomedFamily(representative, observation, field.id)
+			const welcomedFamily = await createWelcomedFamily(familyName, representative, observation, field.id)
 			await request(app.getHttpServer())
 				.delete(`${baseRoute}/${welcomedFamily.id}`)
 				.set('Authorization', `Bearer ${userToken}`)
@@ -223,7 +226,7 @@ describe('Welcomed Family Controller E2E', () => {
 		})
 
 		it('Should Not Restore an Welcomed Family', async () => {
-			const welcomedFamily = await createWelcomedFamily(representative, observation, field.id)
+			const welcomedFamily = await createWelcomedFamily(familyName, representative, observation, field.id)
 			await prisma.welcomedFamily.delete({ where: { id: welcomedFamily.id } })
 
 			await request(app.getHttpServer())
@@ -238,7 +241,7 @@ describe('Welcomed Family Controller E2E', () => {
 		})
 
 		it('Should Not Hard Remove an Welcomed Family', async () => {
-			const welcomedFamily = await createWelcomedFamily(representative, observation, field.id)
+			const welcomedFamily = await createWelcomedFamily(familyName, representative, observation, field.id)
 			await prisma.welcomedFamily.delete({ where: { id: welcomedFamily.id } })
 
 			await request(app.getHttpServer())
@@ -262,6 +265,7 @@ describe('Welcomed Family Controller E2E', () => {
 				.post(baseRoute)
 				.set('Authorization', `Bearer ${adminToken}`)
 				.send({
+					familyName,
 					representative,
 					observation,
 				})
@@ -273,7 +277,7 @@ describe('Welcomed Family Controller E2E', () => {
 
 		it('Should Not Update an Welcomed Family (Different Field)', async () => {
 			const differentField = await createField(prisma, 'América', 'Brasil', 'São Paulo', 'AMEBRSP01', 'Designação')
-			const welcomedFamily = await createWelcomedFamily(representative, observation, differentField.id)
+			const welcomedFamily = await createWelcomedFamily(familyName, representative, observation, differentField.id)
 			const newRepresentative = 'Abreu'
 
 			await request(app.getHttpServer())
@@ -284,7 +288,7 @@ describe('Welcomed Family Controller E2E', () => {
 		})
 
 		it('Should Update an Welcomed Family', async () => {
-			const welcomedFamily = await createWelcomedFamily(representative, observation, field.id)
+			const welcomedFamily = await createWelcomedFamily(familyName, representative, observation, field.id)
 			const newRepresentative = 'Abreu'
 
 			const res = await request(app.getHttpServer())
@@ -298,7 +302,7 @@ describe('Welcomed Family Controller E2E', () => {
 
 		it('Should Not Remove an Welcomed Family (Different Field)', async () => {
 			const differentField = await createField(prisma, 'América', 'Brasil', 'São Paulo', 'AMEBRSP01', 'Designação')
-			const welcomedFamily = await createWelcomedFamily(representative, observation, differentField.id)
+			const welcomedFamily = await createWelcomedFamily(familyName, representative, observation, differentField.id)
 			await request(app.getHttpServer())
 				.delete(`${baseRoute}/${welcomedFamily.id}`)
 				.set('Authorization', `Bearer ${adminToken}`)
@@ -306,7 +310,7 @@ describe('Welcomed Family Controller E2E', () => {
 		})
 
 		it('Should Remove an Welcomed Family', async () => {
-			const welcomedFamily = await createWelcomedFamily(representative, observation, field.id)
+			const welcomedFamily = await createWelcomedFamily(familyName, representative, observation, field.id)
 			await request(app.getHttpServer())
 				.delete(`${baseRoute}/${welcomedFamily.id}`)
 				.set('Authorization', `Bearer ${adminToken}`)
@@ -319,7 +323,7 @@ describe('Welcomed Family Controller E2E', () => {
 
 		it('Should Not Restore an Welcomed Family (Different Field)', async () => {
 			const differentField = await createField(prisma, 'América', 'Brasil', 'São Paulo', 'AMEBRSP01', 'Designação')
-			const welcomedFamily = await createWelcomedFamily(representative, observation, differentField.id)
+			const welcomedFamily = await createWelcomedFamily(familyName, representative, observation, differentField.id)
 			await prisma.welcomedFamily.delete({ where: { id: welcomedFamily.id } })
 
 			await request(app.getHttpServer())
@@ -331,6 +335,7 @@ describe('Welcomed Family Controller E2E', () => {
 
 		it('Should Restore an Welcomed Family', async () => {
 			const welcomedFamily = await createWelcomedFamily(
+				familyName,
 				representative,
 				observation,
 
@@ -351,7 +356,7 @@ describe('Welcomed Family Controller E2E', () => {
 
 		it('Should Not Hard Remove an Welcomed Family (Different Field)', async () => {
 			const differentField = await createField(prisma, 'América', 'Brasil', 'São Paulo', 'AMEBRSP01', 'Designação')
-			const welcomedFamily = await createWelcomedFamily(representative, observation, differentField.id)
+			const welcomedFamily = await createWelcomedFamily(familyName, representative, observation, differentField.id)
 			await prisma.welcomedFamily.delete({ where: { id: welcomedFamily.id } })
 
 			await request(app.getHttpServer())
@@ -363,6 +368,7 @@ describe('Welcomed Family Controller E2E', () => {
 
 		it('Should Hard Remove an Welcomed Family', async () => {
 			const welcomedFamily = await createWelcomedFamily(
+				familyName,
 				representative,
 				observation,
 
@@ -402,6 +408,7 @@ describe('Welcomed Family Controller E2E', () => {
 				.post(baseRoute)
 				.set('Authorization', `Bearer ${webMasterToken}`)
 				.send({
+					familyName,
 					representative,
 					observation,
 					field: field.id,
@@ -414,6 +421,7 @@ describe('Welcomed Family Controller E2E', () => {
 
 		it('Should Update an Welcomed Family', async () => {
 			const welcomedFamily = await createWelcomedFamily(
+				familyName,
 				representative,
 				observation,
 
@@ -431,7 +439,7 @@ describe('Welcomed Family Controller E2E', () => {
 		})
 
 		it('Should Remove an Welcomed Family', async () => {
-			const welcomedFamily = await createWelcomedFamily(representative, observation, field.id)
+			const welcomedFamily = await createWelcomedFamily(familyName, representative, observation, field.id)
 			await request(app.getHttpServer())
 				.delete(`${baseRoute}/${welcomedFamily.id}`)
 				.set('Authorization', `Bearer ${webMasterToken}`)
@@ -443,7 +451,7 @@ describe('Welcomed Family Controller E2E', () => {
 		})
 
 		it('Should Restore an Welcomed Family', async () => {
-			const welcomedFamily = await createWelcomedFamily(representative, observation, field.id)
+			const welcomedFamily = await createWelcomedFamily(familyName, representative, observation, field.id)
 			await prisma.welcomedFamily.delete({ where: { id: welcomedFamily.id } })
 
 			await request(app.getHttpServer())
@@ -458,7 +466,7 @@ describe('Welcomed Family Controller E2E', () => {
 		})
 
 		it('Should Hard Remove an Welcomed Family', async () => {
-			const welcomedFamily = await createWelcomedFamily(representative, observation, field.id)
+			const welcomedFamily = await createWelcomedFamily(familyName, representative, observation, field.id)
 			await prisma.welcomedFamily.delete({ where: { id: welcomedFamily.id } })
 
 			await request(app.getHttpServer())
@@ -482,12 +490,12 @@ describe('Welcomed Family Controller E2E', () => {
 				.fill(0)
 				.map(
 					(v, i) =>
-						({
-							representative: `João ${i}`,
-							observation: 'Período',
-
-							fieldId: field.id,
-						} as WelcomedFamily),
+					({
+						familyName,
+						representative: `João ${i}`,
+						observation: 'Período',
+						fieldId: field.id,
+					} as WelcomedFamily),
 				)
 			await prisma.welcomedFamily.createMany({
 				data: welcomedFamiliesToCreate,
@@ -506,12 +514,12 @@ describe('Welcomed Family Controller E2E', () => {
 				.fill(0)
 				.map(
 					(v, i) =>
-						({
-							representative: `João ${i}`,
-							observation: 'Período',
-
-							fieldId: field.id,
-						} as WelcomedFamily),
+					({
+						familyName,
+						representative: `João ${i}`,
+						observation: 'Período',
+						fieldId: field.id,
+					} as WelcomedFamily),
 				)
 			await prisma.welcomedFamily.createMany({
 				data: welcomedFamiliesToCreate,
@@ -526,6 +534,7 @@ describe('Welcomed Family Controller E2E', () => {
 
 		it('Should Return an Welcomed Family', async () => {
 			const welcomedFamily = await createWelcomedFamily(
+				familyName,
 				representative,
 				observation,
 
