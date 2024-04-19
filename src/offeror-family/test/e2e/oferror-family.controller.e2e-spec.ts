@@ -34,11 +34,13 @@ describe('Offeror Family Controller E2E', () => {
 	const hashedPassword = bcrypt.hashSync(password, bcrypt.genSaltSync())
 	const baseRoute = '/offeror-family'
 
+	const familyName = 'Sousa'
 	const representative = 'Matheus'
 	const commitment = 'Mantimento x'
 	const group = OfferorFamilyGroup.COMMUNITY
 
 	const createOfferorFamily = async (
+		familyName: string,
 		representative: string,
 		commitment: string,
 		group: OfferorFamilyGroup,
@@ -46,6 +48,7 @@ describe('Offeror Family Controller E2E', () => {
 	) =>
 		await prisma.offerorFamily.create({
 			data: {
+				familyName,
 				representative,
 				commitment,
 				group,
@@ -121,7 +124,7 @@ describe('Offeror Family Controller E2E', () => {
 		})
 
 		it('Should Not Update an Offeror Family', async () => {
-			const offerorFamily = await createOfferorFamily(representative, commitment, group, field.id)
+			const offerorFamily = await createOfferorFamily(familyName, representative, commitment, group, field.id)
 			await request(app.getHttpServer())
 				.put(`${baseRoute}/${offerorFamily.id}`)
 				.send({ representative: 'Abreu' })
@@ -129,7 +132,7 @@ describe('Offeror Family Controller E2E', () => {
 		})
 
 		it('Should Not Remove an Offeror Family', async () => {
-			const offerorFamily = await createOfferorFamily(representative, commitment, group, field.id)
+			const offerorFamily = await createOfferorFamily(familyName, representative, commitment, group, field.id)
 
 			await request(app.getHttpServer()).delete(`${baseRoute}/${offerorFamily.id}`).expect(401)
 
@@ -139,7 +142,7 @@ describe('Offeror Family Controller E2E', () => {
 		})
 
 		it('Should Not Restore an Offeror Family', async () => {
-			const offerorFamily = await createOfferorFamily(representative, commitment, group, field.id)
+			const offerorFamily = await createOfferorFamily(familyName, representative, commitment, group, field.id)
 			await prisma.offerorFamily.delete({ where: { id: offerorFamily.id } })
 
 			await request(app.getHttpServer())
@@ -153,7 +156,7 @@ describe('Offeror Family Controller E2E', () => {
 		})
 
 		it('Should Not HardRemove an Offeror Family', async () => {
-			const offerorFamily = await createOfferorFamily(representative, commitment, group, field.id)
+			const offerorFamily = await createOfferorFamily(familyName, representative, commitment, group, field.id)
 			await prisma.offerorFamily.delete({ where: { id: offerorFamily.id } })
 
 			await request(app.getHttpServer())
@@ -176,6 +179,7 @@ describe('Offeror Family Controller E2E', () => {
 				.post(baseRoute)
 				.set('Authorization', `Bearer ${userToken}`)
 				.send({
+					familyName,
 					representative,
 					commitment,
 					group,
@@ -189,7 +193,7 @@ describe('Offeror Family Controller E2E', () => {
 
 		it('Should Not Update an Offeror Family (Different Field)', async () => {
 			const differentField = await createField(prisma, 'América', 'Brasil', 'São Paulo', 'AMEBRSP01', 'Designação')
-			const offerorFamily = await createOfferorFamily(representative, commitment, group, differentField.id)
+			const offerorFamily = await createOfferorFamily(familyName, representative, commitment, group, differentField.id)
 			const newRepresentative = 'Abreu'
 
 			await request(app.getHttpServer())
@@ -200,7 +204,7 @@ describe('Offeror Family Controller E2E', () => {
 		})
 
 		it('Should Update an Offeror Family', async () => {
-			const offerorFamily = await createOfferorFamily(representative, commitment, group, field.id)
+			const offerorFamily = await createOfferorFamily(familyName, representative, commitment, group, field.id)
 			const newRepresentative = 'Abreu'
 
 			const res = await request(app.getHttpServer())
@@ -214,7 +218,7 @@ describe('Offeror Family Controller E2E', () => {
 
 		it('Should Not Remove an Offeror Family (Different Field)', async () => {
 			const differentField = await createField(prisma, 'América', 'Brasil', 'São Paulo', 'AMEBRSP01', 'Designação')
-			const offerorFamily = await createOfferorFamily(representative, commitment, group, differentField.id)
+			const offerorFamily = await createOfferorFamily(familyName, representative, commitment, group, differentField.id)
 			const newRepresentative = 'Abreu'
 
 			await request(app.getHttpServer())
@@ -224,7 +228,7 @@ describe('Offeror Family Controller E2E', () => {
 		})
 
 		it('Should Remove an Offeror Family', async () => {
-			const offerorFamily = await createOfferorFamily(representative, commitment, group, field.id)
+			const offerorFamily = await createOfferorFamily(familyName, representative, commitment, group, field.id)
 			await request(app.getHttpServer())
 				.delete(`${baseRoute}/${offerorFamily.id}`)
 				.set('Authorization', `Bearer ${userToken}`)
@@ -236,7 +240,7 @@ describe('Offeror Family Controller E2E', () => {
 		})
 
 		it('Should Not Restore an Offeror Family', async () => {
-			const offerorFamily = await createOfferorFamily(representative, commitment, group, field.id)
+			const offerorFamily = await createOfferorFamily(familyName, representative, commitment, group, field.id)
 			await prisma.offerorFamily.delete({ where: { id: offerorFamily.id } })
 
 			await request(app.getHttpServer())
@@ -251,7 +255,7 @@ describe('Offeror Family Controller E2E', () => {
 		})
 
 		it('Should Not Hard Remove an Offeror Family', async () => {
-			const offerorFamily = await createOfferorFamily(representative, commitment, group, field.id)
+			const offerorFamily = await createOfferorFamily(familyName, representative, commitment, group, field.id)
 			await prisma.offerorFamily.delete({ where: { id: offerorFamily.id } })
 
 			await request(app.getHttpServer())
@@ -275,6 +279,7 @@ describe('Offeror Family Controller E2E', () => {
 				.post(baseRoute)
 				.set('Authorization', `Bearer ${adminToken}`)
 				.send({
+					familyName,
 					representative,
 					commitment,
 					group,
@@ -289,7 +294,7 @@ describe('Offeror Family Controller E2E', () => {
 
 		it('Should Not Update an Offeror Family (Different Field)', async () => {
 			const differentField = await createField(prisma, 'América', 'Brasil', 'São Paulo', 'AMEBRSP01', 'Designação')
-			const offerorFamily = await createOfferorFamily(representative, commitment, group, differentField.id)
+			const offerorFamily = await createOfferorFamily(familyName, representative, commitment, group, differentField.id)
 			const newRepresentative = 'Abreu'
 
 			await request(app.getHttpServer())
@@ -300,7 +305,7 @@ describe('Offeror Family Controller E2E', () => {
 		})
 
 		it('Should Update an Offeror Family', async () => {
-			const offerorFamily = await createOfferorFamily(representative, commitment, group, field.id)
+			const offerorFamily = await createOfferorFamily(familyName, representative, commitment, group, field.id)
 			const newRepresentative = 'Abreu'
 
 			const res = await request(app.getHttpServer())
@@ -314,7 +319,7 @@ describe('Offeror Family Controller E2E', () => {
 
 		it('Should Not Remove an Offeror Family (Different Field)', async () => {
 			const differentField = await createField(prisma, 'América', 'Brasil', 'São Paulo', 'AMEBRSP01', 'Designação')
-			const offerorFamily = await createOfferorFamily(representative, commitment, group, differentField.id)
+			const offerorFamily = await createOfferorFamily(familyName, representative, commitment, group, differentField.id)
 			await request(app.getHttpServer())
 				.delete(`${baseRoute}/${offerorFamily.id}`)
 				.set('Authorization', `Bearer ${adminToken}`)
@@ -322,7 +327,7 @@ describe('Offeror Family Controller E2E', () => {
 		})
 
 		it('Should Remove an Offeror Family', async () => {
-			const offerorFamily = await createOfferorFamily(representative, commitment, group, field.id)
+			const offerorFamily = await createOfferorFamily(familyName, representative, commitment, group, field.id)
 			await request(app.getHttpServer())
 				.delete(`${baseRoute}/${offerorFamily.id}`)
 				.set('Authorization', `Bearer ${adminToken}`)
@@ -335,7 +340,7 @@ describe('Offeror Family Controller E2E', () => {
 
 		it('Should Not Restore an Offeror Family (Different Field)', async () => {
 			const differentField = await createField(prisma, 'América', 'Brasil', 'São Paulo', 'AMEBRSP01', 'Designação')
-			const offerorFamily = await createOfferorFamily(representative, commitment, group, differentField.id)
+			const offerorFamily = await createOfferorFamily(familyName, representative, commitment, group, differentField.id)
 			await prisma.offerorFamily.delete({ where: { id: offerorFamily.id } })
 
 			await request(app.getHttpServer())
@@ -346,7 +351,7 @@ describe('Offeror Family Controller E2E', () => {
 		})
 
 		it('Should Restore an Offeror Family', async () => {
-			const offerorFamily = await createOfferorFamily(representative, commitment, group, field.id)
+			const offerorFamily = await createOfferorFamily(familyName, representative, commitment, group, field.id)
 			await prisma.offerorFamily.delete({ where: { id: offerorFamily.id } })
 
 			await request(app.getHttpServer())
@@ -362,7 +367,7 @@ describe('Offeror Family Controller E2E', () => {
 
 		it('Should Not Hard Remove an Offeror Family (Different Field)', async () => {
 			const differentField = await createField(prisma, 'América', 'Brasil', 'São Paulo', 'AMEBRSP01', 'Designação')
-			const offerorFamily = await createOfferorFamily(representative, commitment, group, differentField.id)
+			const offerorFamily = await createOfferorFamily(familyName, representative, commitment, group, differentField.id)
 			await prisma.offerorFamily.delete({ where: { id: offerorFamily.id } })
 
 			await request(app.getHttpServer())
@@ -373,7 +378,7 @@ describe('Offeror Family Controller E2E', () => {
 		})
 
 		it('Should Hard Remove an Offeror Family', async () => {
-			const offerorFamily = await createOfferorFamily(representative, commitment, group, field.id)
+			const offerorFamily = await createOfferorFamily(familyName, representative, commitment, group, field.id)
 			await prisma.offerorFamily.delete({ where: { id: offerorFamily.id } })
 
 			await request(app.getHttpServer())
@@ -409,6 +414,7 @@ describe('Offeror Family Controller E2E', () => {
 				.post(baseRoute)
 				.set('Authorization', `Bearer ${webMasterToken}`)
 				.send({
+					familyName,
 					representative,
 					commitment,
 					group,
@@ -423,7 +429,7 @@ describe('Offeror Family Controller E2E', () => {
 
 		it('Should Update an Offeror Family', async () => {
 			const differentField = await createField(prisma, 'América', 'Brasil', 'São Paulo', 'AMEBRSP01', 'Designação')
-			const offerorFamily = await createOfferorFamily(representative, commitment, group, field.id)
+			const offerorFamily = await createOfferorFamily(familyName, representative, commitment, group, field.id)
 			const newRepresentative = 'Abreu'
 
 			const res = await request(app.getHttpServer())
@@ -440,7 +446,7 @@ describe('Offeror Family Controller E2E', () => {
 		})
 
 		it('Should Remove an Offeror Family', async () => {
-			const offerorFamily = await createOfferorFamily(representative, commitment, group, field.id)
+			const offerorFamily = await createOfferorFamily(familyName, representative, commitment, group, field.id)
 			await request(app.getHttpServer())
 				.delete(`${baseRoute}/${offerorFamily.id}`)
 				.set('Authorization', `Bearer ${webMasterToken}`)
@@ -452,7 +458,7 @@ describe('Offeror Family Controller E2E', () => {
 		})
 
 		it('Should Restore an Offeror Family', async () => {
-			const offerorFamily = await createOfferorFamily(representative, commitment, group, field.id)
+			const offerorFamily = await createOfferorFamily(familyName, representative, commitment, group, field.id)
 			await prisma.offerorFamily.delete({ where: { id: offerorFamily.id } })
 
 			await request(app.getHttpServer())
@@ -467,7 +473,7 @@ describe('Offeror Family Controller E2E', () => {
 		})
 
 		it('Should Hard Remove an Offeror Family', async () => {
-			const offerorFamily = await createOfferorFamily(representative, commitment, group, field.id)
+			const offerorFamily = await createOfferorFamily(familyName, representative, commitment, group, field.id)
 			await prisma.offerorFamily.delete({ where: { id: offerorFamily.id } })
 
 			await request(app.getHttpServer())
@@ -492,6 +498,7 @@ describe('Offeror Family Controller E2E', () => {
 				.map(
 					(v, i) =>
 						({
+							familyName,
 							representative: `João ${i}`,
 							commitment,
 							group,
@@ -516,6 +523,7 @@ describe('Offeror Family Controller E2E', () => {
 				.map(
 					(v, i) =>
 						({
+							familyName,
 							representative: `João ${i}`,
 							commitment,
 							group,
@@ -534,7 +542,7 @@ describe('Offeror Family Controller E2E', () => {
 		})
 
 		it('Should Return an Welcomed Family', async () => {
-			const offerorFamily = await createOfferorFamily(representative, commitment, group, field.id)
+			const offerorFamily = await createOfferorFamily(familyName, representative, commitment, group, field.id)
 
 			const res = await request(app.getHttpServer()).get(`${baseRoute}/${offerorFamily.id}`).expect(200)
 
