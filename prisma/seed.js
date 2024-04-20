@@ -21,7 +21,7 @@ async function main() {
 
   if (env.NODE_ENV === 'development') {
     await development()
-  } else if (env.NODE_ENV === 'production') {
+  } else if (env.NODE_ENV === 'production' || env.NODE_ENV === 'preview') {
     // comment this line when first missionary field is open and real data is going to be sent
     // don't forget to exclude fictitious data 
     await production()
