@@ -46,11 +46,11 @@ import { QueueModule } from './queue/queue.module'
 				limit: config.get('throttle.limit'),
 			}],
 		}),
-		BullModule.forRoot({
-			redis: {
-				host: 'localhost',
-				port: 6379,
-			},	
+		BullModule.forRootAsync({
+			inject: [ConfigService],
+			useFactory: (config: ConfigService) => ({
+				redis: config.get('redis')
+			})
 		}),
 
 		QueueModule,
