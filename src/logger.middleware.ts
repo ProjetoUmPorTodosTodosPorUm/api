@@ -1,12 +1,11 @@
-import { Injectable, NestMiddleware } from '@nestjs/common'
+import { Injectable, NestMiddleware, Logger } from '@nestjs/common'
 import { User } from '@prisma/client'
 import { NextFunction, Request, Response } from 'express'
 import * as qs from 'qs'
-import { LogService } from './log/log.service'
 
 @Injectable()
 export class LoggerMiddleware implements NestMiddleware {
-	constructor(private logService: LogService) {}
+	private readonly logger = new Logger(LoggerMiddleware.name)
 
 	use(req: Request, res: Response, next: NextFunction) {
 		const { ip, method, originalUrl: url, body, query } = req
@@ -20,7 +19,7 @@ export class LoggerMiddleware implements NestMiddleware {
 			const statusCode = res.statusCode
 
 			if (method !== 'GET') {
-				this.logService.create({
+				this.logger.log({
 					ip,
 					method,
 					url,
@@ -41,7 +40,7 @@ export class LoggerMiddleware implements NestMiddleware {
 		const keys = ['password', 'accessToken', 'refreshToken']
 		for (const key of keys) {
 			if (body[key]) {
-				body[key] = '***'
+				body[key] = '***redacted***'
 			}
 		}
 		return body
