@@ -71,12 +71,12 @@ export default () => ({
 	},
 
 	throttle: {
-		ttl: 60,
+		ttl: 60 * 1000,
 		limit: 60,
 	},
 
 	log: {
-		clearBeyondMonths: 3,
+		clearBeyondMonths: 1,
 	},
 
 	redis: {

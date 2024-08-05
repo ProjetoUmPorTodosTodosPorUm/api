@@ -1,6 +1,6 @@
 {
   "name": "api",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "projetoumportodostodosporum.org's API",
   "author": "https://github.com/RenanGalvao",
   "private": true,
@@ -46,8 +46,13 @@
     "pretest:unit:ci": "npm run pretest:e2e:ci",
     "test:unit:ci": "jest -i --ci --forceExit --config jest-unit.json"
   },
+  "overrides": {
+    "@nestjs-modules/mailer": {
+      "mjml": "^5.0.0-alpha.4"
+    }
+  },
   "dependencies": {
-    "@nestjs-modules/mailer": "~1.10.3",
+    "@nestjs-modules/mailer": "^1.6.1",
     "@nestjs/bull": "^10.1.1",
     "@nestjs/common": "^10.0.0",
     "@nestjs/config": "^3.2.0",

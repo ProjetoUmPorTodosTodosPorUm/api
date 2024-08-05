@@ -1,6 +1,4 @@
-version: '3.9'
 services:
-
   test-db:
     image: postgres:13-alpine
     ports:
