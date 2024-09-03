@@ -48,7 +48,7 @@ describe('Main Service Integration', () => {
 					],
 					isGlobal: true,
 				}),
-				
+
 				// Basic Modules
 				PrismaModule,
 				UserModule,
@@ -58,19 +58,17 @@ describe('Main Service Integration', () => {
 					redis: {
 						host: 'localhost',
 						port: 6379,
-					},	
+					},
 				}),
 				QueueModule,
 				MailModule,
 				TokenModule,
-
 			],
 		}).compile()
 
 		prisma = moduleRef.get(PrismaService)
 		queue = moduleRef.get(getQueueToken('queue'))
 		mailService = moduleRef.get(MailService)
-		
 	})
 
 	beforeEach(async () => {
@@ -115,8 +113,8 @@ describe('Main Service Integration', () => {
 				email,
 				name: 'teste',
 				payload: {
-					role: 'VOLUNTEER'
-				}
+					role: 'VOLUNTEER',
+				},
 			})
 
 			const job = (await queue.getJobs(['active', 'completed', 'waiting']))[0]

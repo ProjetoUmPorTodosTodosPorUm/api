@@ -490,12 +490,12 @@ describe('Welcomed Family Controller E2E', () => {
 				.fill(0)
 				.map(
 					(v, i) =>
-					({
-						familyName,
-						representative: `João ${i}`,
-						observation: 'Período',
-						fieldId: field.id,
-					} as WelcomedFamily),
+						({
+							familyName,
+							representative: `João ${i}`,
+							observation: 'Período',
+							fieldId: field.id,
+						} as WelcomedFamily),
 				)
 			await prisma.welcomedFamily.createMany({
 				data: welcomedFamiliesToCreate,
@@ -514,12 +514,12 @@ describe('Welcomed Family Controller E2E', () => {
 				.fill(0)
 				.map(
 					(v, i) =>
-					({
-						familyName,
-						representative: `João ${i}`,
-						observation: 'Período',
-						fieldId: field.id,
-					} as WelcomedFamily),
+						({
+							familyName,
+							representative: `João ${i}`,
+							observation: 'Período',
+							fieldId: field.id,
+						} as WelcomedFamily),
 				)
 			await prisma.welcomedFamily.createMany({
 				data: welcomedFamiliesToCreate,

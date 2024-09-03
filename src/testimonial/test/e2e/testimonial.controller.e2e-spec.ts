@@ -478,12 +478,12 @@ describe('Testimonial Controller E2E', () => {
 				.fill(0)
 				.map(
 					(v, i) =>
-					({
-						name: `Título ${i}`,
-						email,
-						text,
-						fieldId: field.id,
-					} as Testimonial),
+						({
+							name: `Título ${i}`,
+							email,
+							text,
+							fieldId: field.id,
+						} as Testimonial),
 				)
 			await prisma.testimonial.createMany({
 				data: testimonialsToCreate,
@@ -502,12 +502,12 @@ describe('Testimonial Controller E2E', () => {
 				.fill(0)
 				.map(
 					(v, i) =>
-					({
-						name: `Título ${i}`,
-						email,
-						text,
-						fieldId: field.id,
-					} as Testimonial),
+						({
+							name: `Título ${i}`,
+							email,
+							text,
+							fieldId: field.id,
+						} as Testimonial),
 				)
 			await prisma.testimonial.createMany({
 				data: testimonialsToCreate,

@@ -7,7 +7,7 @@ import { Test } from '@nestjs/testing'
 import { createField, createUser, getToken, setAppConfig } from 'src/utils/test'
 import { ITEMS_PER_PAGE } from 'src/constants'
 
-import { ConfigModule, ConfigService } from '@nestjs/config'
+import { ConfigModule } from '@nestjs/config'
 import configuration from 'src/config/configuration'
 import { AuthModule } from 'src/auth/auth.module'
 import { PrismaModule } from 'src/prisma/prisma.module'
@@ -477,11 +477,11 @@ describe('Announcement Controller E2E', () => {
 				.fill(0)
 				.map(
 					(v, i) =>
-					({
-						title: `Título ${i}`,
-						message,
-						fieldId: field.id,
-					} as Announcement),
+						({
+							title: `Título ${i}`,
+							message,
+							fieldId: field.id,
+						} as Announcement),
 				)
 			await prisma.announcement.createMany({
 				data: announcementsToCreate,
@@ -500,11 +500,11 @@ describe('Announcement Controller E2E', () => {
 				.fill(0)
 				.map(
 					(v, i) =>
-					({
-						title: `Título ${i}`,
-						message,
-						fieldId: field.id,
-					} as Announcement),
+						({
+							title: `Título ${i}`,
+							message,
+							fieldId: field.id,
+						} as Announcement),
 				)
 			await prisma.announcement.createMany({
 				data: announcementsToCreate,
@@ -531,11 +531,11 @@ describe('Announcement Controller E2E', () => {
 				.fill(0)
 				.map(
 					(v, i) =>
-					({
-						title: `Título ${i}`,
-						message,
-						fieldId: field.id,
-					} as Announcement),
+						({
+							title: `Título ${i}`,
+							message,
+							fieldId: field.id,
+						} as Announcement),
 				)
 			await prisma.announcement.createMany({
 				data: announcementsToCreate,

@@ -124,7 +124,7 @@ describe('Log Controller E2E', () => {
 			expect(response.headers['x-total-pages']).toBe(String(1))
 		})
 
-		let randomNLogs = Math.ceil(Math.random() * ITEMS_PER_PAGE)
+		const randomNLogs = Math.ceil(Math.random() * ITEMS_PER_PAGE)
 		it(`Should Return a Log List With ${randomNLogs} Items`, async () => {
 			const logsToCreate = Array(ITEMS_PER_PAGE)
 				.fill(0)

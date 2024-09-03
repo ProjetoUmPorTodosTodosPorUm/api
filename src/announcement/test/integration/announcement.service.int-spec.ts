@@ -1,4 +1,4 @@
-import { BadRequestException, ForbiddenException, NotFoundException } from '@nestjs/common'
+import { ForbiddenException, NotFoundException } from '@nestjs/common'
 
 import { Test } from '@nestjs/testing'
 import { Announcement, Field, Role, User } from '@prisma/client'

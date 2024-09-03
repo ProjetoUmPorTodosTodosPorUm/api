@@ -56,7 +56,7 @@ export const ApiCreatedResponse = <TModel extends Type<any>>(
 	}
 
 	if (options?.paginated) {
-		let data = {
+		const data = {
 			type: 'array',
 			items: {
 				allOf: [
@@ -108,7 +108,7 @@ export const ApiCreatedResponse = <TModel extends Type<any>>(
 			}),
 		)
 	} else {
-		let data: any = {
+		const data: any = {
 			allOf: [
 				{ $ref: getSchemaPath(model) },
 				{

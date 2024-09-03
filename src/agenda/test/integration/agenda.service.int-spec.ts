@@ -1,4 +1,4 @@
-import { BadRequestException, ForbiddenException, NotFoundException } from '@nestjs/common'
+import { ForbiddenException, NotFoundException } from '@nestjs/common'
 import { Test } from '@nestjs/testing'
 import { Agenda, Field, Role, User } from '@prisma/client'
 import { AgendaService } from 'src/agenda/agenda.service'

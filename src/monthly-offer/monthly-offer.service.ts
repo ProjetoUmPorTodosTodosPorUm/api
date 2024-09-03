@@ -64,7 +64,7 @@ export class MonthlyOfferService {
 			orderBy: [{ year: 'asc' }, { month: 'asc' }],
 		})
 		return collectedPeriod.reduce((p, c) => {
-			let tmp = {}
+			const tmp = {}
 			if (p[c.year]) {
 				tmp[c.year] = [...p[c.year], c.month]
 			} else {

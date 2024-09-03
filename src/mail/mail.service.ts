@@ -4,13 +4,11 @@ import { PrismaService } from 'src/prisma/prisma.service'
 import { TEMPLATE } from 'src/constants'
 import { InjectQueue } from '@nestjs/bull'
 import { Queue } from 'bull'
+import { InboundMailDto } from './dto'
 
 @Injectable()
 export class MailService {
-	constructor(
-		private prismaService: PrismaService,
-		@InjectQueue('queue') private readonly queue: Queue
-	) { }
+	constructor(private prismaService: PrismaService, @InjectQueue('queue') private readonly queue: Queue) {}
 
 	async sendRecoverEmail(sendRecoverEmailDto: SendRecoverEmailDto) {
 		const user = await this.prismaService.user.findUnique({
@@ -20,7 +18,7 @@ export class MailService {
 		})
 
 		if (user) {
-			await this.queue.add('recover-mail', user, { attempts: 3, removeOnComplete: 10 });
+			await this.queue.add('recover-mail', user, { attempts: 3, removeOnComplete: 10 })
 			return true
 		} else {
 			throw new NotFoundException({
@@ -31,7 +29,12 @@ export class MailService {
 	}
 
 	async sendCreateEmail(sendCreateEmailDto: SendCreateEmailDto) {
-		await this.queue.add('create-mail', sendCreateEmailDto, { attempts: 3, removeOnComplete: 10 });
+		await this.queue.add('create-mail', sendCreateEmailDto, { attempts: 3, removeOnComplete: 10 })
+		return true
+	}
+
+	async inbound(inboundMailDto: InboundMailDto, files: Array<Express.Multer.File>) {
+		await this.queue.add('inbound-mail', { inboundMailDto, files }, { attempts: 3, removeOnComplete: 10 })
 		return true
 	}
 }

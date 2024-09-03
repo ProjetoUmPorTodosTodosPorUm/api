@@ -6,7 +6,7 @@ import * as nodemailer from 'nodemailer'
 import { Test } from '@nestjs/testing'
 import { MESSAGE, TEMPLATE } from 'src/constants'
 import { TokenService } from 'src/token/token.service'
-import { ConfigModule, ConfigService } from '@nestjs/config'
+import { ConfigModule } from '@nestjs/config'
 import configuration from 'src/config/configuration'
 import { createField, createUser, getToken, setAppConfig } from 'src/utils/test'
 import { NestExpressApplication } from '@nestjs/platform-express'
@@ -78,9 +78,9 @@ describe('Auth Controller E2E', () => {
 					redis: {
 						host: 'localhost',
 						port: 6379,
-					},	
+					},
 				}),
-		
+
 				QueueModule,
 				FieldModule,
 				MailModule,
@@ -126,7 +126,7 @@ describe('Auth Controller E2E', () => {
 				role: Role.WEB_MASTER,
 			} as CreateMailPayload
 
-			const res = await request(app.getHttpServer())
+			await request(app.getHttpServer())
 				.post(`${baseRoute}/create-email`)
 				.send({ email, name, payload })
 				.set('Authorization', `Bearer ${adminToken}`)
@@ -443,7 +443,7 @@ describe('Auth Controller E2E', () => {
 			const payload = {
 				role: Role.WEB_MASTER,
 			} as CreateMailPayload
-			const token = await tokenService.create({
+			await tokenService.create({
 				email: email,
 				tokenType: TokenType.CREATE_EMAIL,
 				payload: payload,

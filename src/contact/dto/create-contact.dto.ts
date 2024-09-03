@@ -1,4 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger'
+import { IsOptional } from 'class-validator'
 import { IsEmail, IsNotEmpty, IsString } from 'src/utils'
 
 export class CreateContactDto {
@@ -15,4 +16,7 @@ export class CreateContactDto {
 	@IsNotEmpty()
 	@IsString()
 	message: string
+	@IsOptional()
+	@IsString({ each: true })
+	attachments?: string[]
 }
