@@ -483,12 +483,12 @@ describe('Agenda Controller E2E', () => {
 				.fill(0)
 				.map(
 					(v, i) =>
-					({
-						title: `Título ${i}`,
-						message: 'Mensagem',
-						date: new Date('2022-01-03'),
-						fieldId: field.id,
-					} as Agenda),
+						({
+							title: `Título ${i}`,
+							message: 'Mensagem',
+							date: new Date('2022-01-03'),
+							fieldId: field.id,
+						} as Agenda),
 				)
 			await prisma.agenda.createMany({
 				data: eventsToCreate,
@@ -507,12 +507,12 @@ describe('Agenda Controller E2E', () => {
 				.fill(0)
 				.map(
 					(v, i) =>
-					({
-						title: `Título ${i}`,
-						message: 'Mensagem',
-						date: new Date('2022-01-03'),
-						fieldId: field.id,
-					} as Agenda),
+						({
+							title: `Título ${i}`,
+							message: 'Mensagem',
+							date: new Date('2022-01-03'),
+							fieldId: field.id,
+						} as Agenda),
 				)
 			await prisma.agenda.createMany({
 				data: eventsToCreate,
@@ -540,12 +540,12 @@ describe('Agenda Controller E2E', () => {
 				.fill(0)
 				.map(
 					(v, i) =>
-					({
-						title: `Título ${i}`,
-						message: 'Mensagem',
-						date: new Date('2023-02-15'),
-						fieldId: field.id,
-					} as Agenda),
+						({
+							title: `Título ${i}`,
+							message: 'Mensagem',
+							date: new Date('2023-02-15'),
+							fieldId: field.id,
+						} as Agenda),
 				)
 			await prisma.agenda.createMany({
 				data: eventsToCreate,

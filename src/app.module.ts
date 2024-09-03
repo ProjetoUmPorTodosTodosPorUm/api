@@ -41,16 +41,18 @@ import { QueueModule } from './queue/queue.module'
 		}),
 		ThrottlerModule.forRootAsync({
 			inject: [ConfigService],
-			useFactory: (config: ConfigService) => [{
-				ttl: config.get('throttle.ttl'),
-				limit: config.get('throttle.limit'),
-			}],
+			useFactory: (config: ConfigService) => [
+				{
+					ttl: config.get('throttle.ttl'),
+					limit: config.get('throttle.limit'),
+				},
+			],
 		}),
 		BullModule.forRootAsync({
 			inject: [ConfigService],
 			useFactory: (config: ConfigService) => ({
-				redis: config.get('redis')
-			})
+				redis: config.get('redis'),
+			}),
 		}),
 
 		QueueModule,

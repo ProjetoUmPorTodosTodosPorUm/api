@@ -364,10 +364,11 @@ model RecoveryHouse {
 }
 
 model Contact {
-  id      String @id @default(uuid())
-  name    String
-  email   String
-  message String
+  id          String   @id @default(uuid())
+  name        String
+  email       String
+  message     String
+  attachments String[]
 
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt

@@ -274,7 +274,13 @@ describe('Offeror Family Service Integration', () => {
 		it('Should Not Update an Offeror Family (Different Field as USER)', async () => {
 			try {
 				const differentField = await createField(prisma, 'América', 'Brasil', 'São Paulo', 'AMEBRSP01', 'Designação')
-				const offerorFamily = await createOfferorFamily(familyName, representative, commitment, group, differentField.id)
+				const offerorFamily = await createOfferorFamily(
+					familyName,
+					representative,
+					commitment,
+					group,
+					differentField.id,
+				)
 				const newRepresentative = 'Abreu'
 				await offerorFamilyService.update(offerorFamily.id, user, {
 					representative: newRepresentative,
@@ -288,7 +294,13 @@ describe('Offeror Family Service Integration', () => {
 		it('Should Not Update an Offeror Family (Different Field as ADMIN)', async () => {
 			try {
 				const differentField = await createField(prisma, 'América', 'Brasil', 'São Paulo', 'AMEBRSP01', 'Designação')
-				const offerorFamily = await createOfferorFamily(familyName, representative, commitment, group, differentField.id)
+				const offerorFamily = await createOfferorFamily(
+					familyName,
+					representative,
+					commitment,
+					group,
+					differentField.id,
+				)
 				const newRepresentative = 'Abreu'
 				await offerorFamilyService.update(offerorFamily.id, admin, {
 					representative: newRepresentative,
@@ -311,7 +323,7 @@ describe('Offeror Family Service Integration', () => {
 		})
 
 		it('Should Update an Offeror Family (as ADMIN)', async () => {
-			const offerorFamily = await createOfferorFamily(familyName,representative, commitment, group, field.id)
+			const offerorFamily = await createOfferorFamily(familyName, representative, commitment, group, field.id)
 			const newRepresentative = 'Abreu'
 
 			const offerorFamilyUpdated = await offerorFamilyService.update(offerorFamily.id, admin, {
@@ -323,7 +335,7 @@ describe('Offeror Family Service Integration', () => {
 
 		it('Should Update an Offeror Family (as WEB MASTER)', async () => {
 			const differentField = await createField(prisma, 'América', 'Brasil', 'São Paulo', 'AMEBRSP01', 'Designação')
-			const offerorFamily = await createOfferorFamily(familyName,representative, commitment, group, field.id)
+			const offerorFamily = await createOfferorFamily(familyName, representative, commitment, group, field.id)
 			const newRepresentative = 'Abreu'
 
 			const offerorFamilyUpdated = await offerorFamilyService.update(offerorFamily.id, webMaster, {
@@ -370,7 +382,13 @@ describe('Offeror Family Service Integration', () => {
 		it('Should Not Remove an Offeror Family (Different Field as USER)', async () => {
 			try {
 				const differentField = await createField(prisma, 'América', 'Brasil', 'São Paulo', 'AMEBRSP01', 'Designação')
-				const offerorFamily = await createOfferorFamily(familyName,representative, commitment, group, differentField.id)
+				const offerorFamily = await createOfferorFamily(
+					familyName,
+					representative,
+					commitment,
+					group,
+					differentField.id,
+				)
 				await offerorFamilyService.remove(offerorFamily.id, user)
 			} catch (error) {
 				expect(error).toBeInstanceOf(ForbiddenException)
@@ -381,7 +399,13 @@ describe('Offeror Family Service Integration', () => {
 		it('Should Not Remove an Offeror Family (Different Field as ADMIN)', async () => {
 			try {
 				const differentField = await createField(prisma, 'América', 'Brasil', 'São Paulo', 'AMEBRSP01', 'Designação')
-				const offerorFamily = await createOfferorFamily(familyName,representative, commitment, group, differentField.id)
+				const offerorFamily = await createOfferorFamily(
+					familyName,
+					representative,
+					commitment,
+					group,
+					differentField.id,
+				)
 				await offerorFamilyService.remove(offerorFamily.id, admin)
 			} catch (error) {
 				expect(error).toBeInstanceOf(ForbiddenException)
@@ -453,7 +477,13 @@ describe('Offeror Family Service Integration', () => {
 		it('Should Not Restore an Offeror Family (Different Field as ADMIN)', async () => {
 			try {
 				const differentField = await createField(prisma, 'América', 'Brasil', 'São Paulo', 'AMEBRSP01', 'Designação')
-				const offerorFamily = await createOfferorFamily(familyName, representative, commitment, group, differentField.id)
+				const offerorFamily = await createOfferorFamily(
+					familyName,
+					representative,
+					commitment,
+					group,
+					differentField.id,
+				)
 				await prisma.offerorFamily.delete({ where: { id: offerorFamily.id } })
 				await offerorFamilyService.restore({ ids: [offerorFamily.id] }, admin)
 			} catch (error) {
@@ -515,7 +545,13 @@ describe('Offeror Family Service Integration', () => {
 		it('Should Not Hard Remove an Offeror Family (Different Field as ADMIN)', async () => {
 			try {
 				const differentField = await createField(prisma, 'América', 'Brasil', 'São Paulo', 'AMEBRSP01', 'Designação')
-				const offerorFamily = await createOfferorFamily(familyName, representative, commitment, group, differentField.id)
+				const offerorFamily = await createOfferorFamily(
+					familyName,
+					representative,
+					commitment,
+					group,
+					differentField.id,
+				)
 				await prisma.offerorFamily.delete({ where: { id: offerorFamily.id } })
 				await offerorFamilyService.hardRemove({ ids: [offerorFamily.id] }, admin)
 			} catch (error) {

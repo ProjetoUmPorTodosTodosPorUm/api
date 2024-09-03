@@ -1,4 +1,4 @@
-import { BadRequestException, ForbiddenException, Injectable, NotFoundException, Query } from '@nestjs/common'
+import { ForbiddenException, Injectable, NotFoundException, Query } from '@nestjs/common'
 import { User, Prisma } from '@prisma/client'
 import { MESSAGE, TEMPLATE } from 'src/constants'
 import { PaginationDto } from 'src/prisma/dto'

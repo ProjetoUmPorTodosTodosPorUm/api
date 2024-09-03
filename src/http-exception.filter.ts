@@ -40,12 +40,15 @@ export class HttpExceptionFilter implements ExceptionFilter {
 		}
 
 		// FallBack
+		console.log(request.body)
 		if (typeof exception.getResponse() == 'object' && !Object.keys(exception.getResponse()).includes('statusCode')) {
+			console.log(exception.getResponse() as object)
 			return response.status(status).json({
 				...(exception.getResponse() as object),
 				timestamp: new Date().toISOString(),
 			})
 		} else {
+			console.log((exception.getResponse() as any).message || {})
 			return response.status(status).json({
 				message: (exception.getResponse() as any).error || exception.message,
 				data: (exception.getResponse() as any).message || {},

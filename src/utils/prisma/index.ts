@@ -24,7 +24,7 @@ export class PrismaUtils {
 }
 
 export function transformNumbers(params: TransformFnParams) {
-	let arr = params.value.split(',')
+	const arr = params.value.split(',')
 	for (let i = 0; i < arr.length; i++) {
 		if (isNumeric(arr[i])) {
 			arr[i] = Number(arr[i])

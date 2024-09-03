@@ -32,12 +32,7 @@ export async function createUser(
 	}
 }
 
-export async function getToken(
-	app: NestExpressApplication,
-	email: string,
-	password: string,
-	refreshToken: boolean = false,
-) {
+export async function getToken(app: NestExpressApplication, email: string, password: string, refreshToken = false) {
 	return (
 		await request(app.getHttpServer())
 			.post('/auth/signin')

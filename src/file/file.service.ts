@@ -50,7 +50,7 @@ export class FileService {
 		// Copy file to docker volume
 		if (process.env.NODE_ENV === 'development') {
 			// check docker-compose.yml file
-			const filesVolumeName = 'files'
+			const filesVolumeName = 'files_dev'
 			child_process.execSync(
 				`cd files && docker run --rm -v $PWD:/source -v ${filesVolumeName}:/dest -w /source alpine cp "${file.filename}" /dest`,
 			)
@@ -94,7 +94,7 @@ export class FileService {
 		// Copy file to docker volume
 		if (process.env.NODE_ENV === 'development') {
 			// check docker-compose.yml file
-			const filesVolumeName = 'files'
+			const filesVolumeName = 'files_dev'
 			child_process.execSync(
 				`cd files && docker run --rm -v $PWD:/source -v ${filesVolumeName}:/dest -w /source alpine cp ${filesObj
 					.map((file) => `"${file.name}"`)
@@ -260,7 +260,7 @@ export class FileService {
 	}
 
 	async bulkRemove(fileBulkRemoveDto: FileBulkRemoveDto, user: User) {
-		let whereObj = {
+		const whereObj = {
 			name: { in: fileBulkRemoveDto.files },
 		} as any
 

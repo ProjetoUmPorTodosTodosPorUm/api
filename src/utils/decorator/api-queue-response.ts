@@ -14,9 +14,7 @@ export const ApiQueueResponse = () => {
 					data: {
 						type: 'array',
 						items: {
-							allOf: [
-								{ $ref: getSchemaPath(QueueResponseDto) }
-							]
+							allOf: [{ $ref: getSchemaPath(QueueResponseDto) }],
 						},
 					},
 					timestamp: {

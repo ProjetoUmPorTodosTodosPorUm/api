@@ -117,18 +117,18 @@ export class PrismaService extends PrismaClient implements OnModuleInit {
 
 	private cleanSearch(search: string) {
 		// Remove Multiple occurences
-		let charsToRemove = [' ', '!', '&', '\\|', '<->']
+		const charsToRemove = [' ', '!', '&', '\\|', '<->']
 		let tmpStr = search.trim()
 
 		for (let i = 0; i < charsToRemove.length; i++) {
-			let char = charsToRemove[i]
+			const char = charsToRemove[i]
 			tmpStr = tmpStr.replace(new RegExp(`${char}+(?=${char})`, 'g'), '')
 		}
 
 		// remove special chars
 		charsToRemove.splice(0, 1)
 		for (let i = 0; i < charsToRemove.length; i++) {
-			let char = charsToRemove[i]
+			const char = charsToRemove[i]
 			tmpStr = tmpStr.replace(new RegExp(`${char}`, 'g'), '')
 		}
 
@@ -177,7 +177,7 @@ export class PrismaService extends PrismaClient implements OnModuleInit {
 			})
 		}
 
-		let searchSpecificObj = {}
+		const searchSpecificObj = {}
 		if (hasSearchSpecific) {
 			for (let i = 0; i < options.searchSpecificField.length; i++) {
 				searchSpecificObj[options.searchSpecificField[i]] = options.searchSpecificValue[i]

@@ -17,7 +17,7 @@ import { Roles } from './roles'
 @Throttle({ default: { limit: 3, ttl: HOUR_IN_SECS } })
 @Controller('auth')
 export class AuthController {
-	constructor(private authService: AuthService) { }
+	constructor(private authService: AuthService) {}
 
 	@ApiLoginResponse()
 	@Public()

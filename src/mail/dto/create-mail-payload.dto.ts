@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger'
 import { Role } from '@prisma/client'
-import { IsNotEmpty, IsOptional } from 'class-validator'
-import { IsEnum, IsUUID } from 'src/utils'
+import { IsOptional } from 'class-validator'
+import { IsNotEmpty, IsEnum, IsUUID } from 'src/utils'
 
 export class CreateMailPayload {
 	@ApiProperty({
